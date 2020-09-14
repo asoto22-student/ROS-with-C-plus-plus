@@ -5,37 +5,35 @@
 // Import all the necessary ROS libraries and import the Int32 message from the
 // std_msgs package
 
-int main(int argc, char **argv)
-{
-  ros::init(argc, argv, "topic_publisher"); // Initiate a Node named 'topic_publisher'
+int main(int argc, char **argv) {
+  ros::init(argc, argv, "topic_publisher");
   ros::NodeHandle nh;
 
-  ros::Publisher pub = nh.advertise<geometry_msgs::Twist>(
-      "cmd_vel", 1000);   // Create a Publisher object, that will // publish on
-                          // the /counter topic messages of type Int32
-  ros::Rate loop_rate(2); // Set a publish rate of 2 Hz
+  // ros::Publisher pub = nh.advertise<std_msgs>("count", 1000);
+  ros::Publisher pub = nh.advertise<geometry_msgs::Twist>("cmd_vel", 1000);
+  ros::Rate loop_rate(2);
 
-  std_msgs::Int32 count; // Create a variable of type Int32
-  count.data = 0;        // Initialize 'count' variable
+  // std_msgs::Int32 count;
+  // count.data = 0;
 
   geometry_msgs::Twist var;
-  geometry_msgs::Vector3 movement;
-  geometry_msgs::Vector3 stop;
+  var.linear.x = 0.25;
+  var.angular.z = 0.25;
 
-  movement.x = 0.25;
+  int loop = 0;
 
-  var.linear = movement;
-
-  while (ros::ok()) // Create a loop that will go until someone stops the
-                    // program execution
-  {
-    pub.publish(var); // Publish the message within the 'count' variable
+  while (ros::ok()) {
+    pub.publish(var);
     ros::spinOnce();
-    loop_rate.sleep(); // Make sure the publish rate maintains at 2 Hz
-                       // var.linear.x = 1; // Increment 'count' variable
+    loop_rate.sleep();
+    loop++;
+    if (loop > 50) {
+      break;
+    }
   }
 
-  var.linear = stop;
+  var.linear.x = 0;
+  var.angular.z = 0;
   pub.publish(var);
 
   return 0;
