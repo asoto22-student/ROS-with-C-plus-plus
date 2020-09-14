@@ -1,0 +1,5 @@
+<launch>
+  <!-- Package Launcher for an example topic publisher package -->
+  <node pkg="topics_quiz" type="topics_quiz" name="TopicQuiz"  output="screen">
+  </node>
+</launch>

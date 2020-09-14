@@ -1,0 +1,5 @@
+<launch>
+  <!-- Package Launcher for an example topic publisher package -->
+  <node pkg="topic_subscriber_pkg" type="simple_topic_subscriber" name="SimpleTopicSubscriber"  output="screen">
+  </node>
+</launch>
